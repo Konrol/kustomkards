@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { cards, factions } from './data/cards'
+import { cards, factions, keywordLibrary } from './data/cards'
 import './App.css'
 
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
@@ -110,37 +110,53 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-function CardAbility({ card, isKeywordOpen, onToggleKeyword }) {
-  const hasKeyword = card.isNewKeyword && card.newKeyword && card.newKeywordDesc
+const keywordByName = new Map(
+  keywordLibrary.map((keyword) => [keyword.name.toLowerCase(), keyword]),
+)
 
+const keywordPattern = new RegExp(
+  `\\b(${keywordLibrary
+    .map((keyword) => keyword.name)
+    .sort((firstKeyword, secondKeyword) => secondKeyword.length - firstKeyword.length)
+    .map(escapeRegExp)
+    .join('|')})\\b`,
+  'gi',
+)
+
+function CardAbility({ card, openKeywordName, onToggleKeyword }) {
   if (!card.ability) {
     return null
   }
 
-  if (!hasKeyword) {
+  const abilityParts = card.ability.split(keywordPattern)
+
+  if (abilityParts.length === 1) {
     return <p className="ability">{card.ability}</p>
   }
-
-  const keywordPattern = new RegExp(`(${escapeRegExp(card.newKeyword)})`, 'i')
-  const abilityParts = card.ability.split(keywordPattern)
 
   return (
     <div className="ability-wrap">
       <p className="ability">
         {abilityParts.map((part, index) => {
-          const isKeyword = part.toLowerCase() === card.newKeyword.toLowerCase()
+          const keyword = keywordByName.get(part.toLowerCase())
 
-          if (!isKeyword) {
+          if (!keyword) {
             return part
           }
 
+          const isKeywordOpen = openKeywordName === keyword.name
+
           return (
             <button
-              className="keyword-trigger"
+              className={
+                keyword.isNew
+                  ? 'keyword-trigger keyword-trigger-new'
+                  : 'keyword-trigger'
+              }
               type="button"
               aria-expanded={isKeywordOpen}
-              aria-controls={`keyword-desc-${card.id}`}
-              onClick={onToggleKeyword}
+              aria-controls={`keyword-desc-${card.id}-${keyword.name}`}
+              onClick={() => onToggleKeyword(keyword.name)}
               key={`${card.id}-${part}-${index}`}
             >
               {part}
@@ -149,10 +165,17 @@ function CardAbility({ card, isKeywordOpen, onToggleKeyword }) {
         })}
       </p>
 
-      {isKeywordOpen && (
-        <div className="keyword-desc" id={`keyword-desc-${card.id}`}>
-          <strong>{card.newKeyword}</strong>
-          <p>{card.newKeywordDesc}</p>
+      {openKeywordName && (
+        <div
+          className={
+            keywordByName.get(openKeywordName.toLowerCase())?.isNew
+              ? 'keyword-desc keyword-desc-new'
+              : 'keyword-desc'
+          }
+          id={`keyword-desc-${card.id}-${openKeywordName}`}
+        >
+          <strong>{openKeywordName}</strong>
+          <p>{keywordByName.get(openKeywordName.toLowerCase())?.desc}</p>
         </div>
       )}
     </div>
@@ -164,7 +187,7 @@ function App() {
   const [activeFaction, setActiveFaction] = useState('Neutral')
   const [activeFilter, setActiveFilter] = useState('All')
   const [isNavCompact, setIsNavCompact] = useState(false)
-  const [openKeywordCardId, setOpenKeywordCardId] = useState(null)
+  const [openKeyword, setOpenKeyword] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
   const headerRef = useRef(null)
 
@@ -362,10 +385,15 @@ function App() {
 
                   <CardAbility
                     card={card}
-                    isKeywordOpen={openKeywordCardId === card.id}
-                    onToggleKeyword={() => {
-                      setOpenKeywordCardId((currentCardId) =>
-                        currentCardId === card.id ? null : card.id,
+                    openKeywordName={
+                      openKeyword?.cardId === card.id ? openKeyword.name : null
+                    }
+                    onToggleKeyword={(keywordName) => {
+                      setOpenKeyword((currentKeyword) =>
+                        currentKeyword?.cardId === card.id &&
+                        currentKeyword.name === keywordName
+                          ? null
+                          : { cardId: card.id, name: keywordName },
                       )
                     }}
                   />

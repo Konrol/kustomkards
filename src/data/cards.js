@@ -1,5 +1,58 @@
 export const factions = ['Neutral', 'MO', 'NG', 'ST', 'SY', 'SK', 'NR']
 
+export const keywordLibrary = [
+  {
+    name: 'Deploy',
+    desc: 'This ability triggers when the card is played from your hand.',
+    isNew: false,
+  },
+  {
+    name: 'Order',
+    desc: 'This ability can be manually activated while the card is on the board.',
+    isNew: false,
+  },
+  {
+    name: 'Fee',
+    desc: 'Spend the listed number of coins to trigger this ability.',
+    isNew: false,
+  },
+  {
+    name: 'Profit',
+    desc: 'Gain the listed number of coins when this ability resolves.',
+    isNew: false,
+  },
+  {
+    name: 'Zeal',
+    desc: 'An Order ability with Zeal can be used on the same turn the card is played.',
+    isNew: false,
+  },
+  {
+    name: 'Cooldown',
+    desc: 'After using this ability, wait the listed number of turns before using it again.',
+    isNew: false,
+  },
+  {
+    name: 'Inspired',
+    desc: 'This ability gains an extra effect while the unit is boosted.',
+    isNew: false,
+  },
+  {
+    name: 'Veteran',
+    desc: 'This unit improves in later rounds.',
+    isNew: false,
+  },
+  {
+    name: 'Barricade',
+    desc: 'This ability is active while the unit has armor.',
+    isNew: false,
+  },
+  {
+    name: 'Welfare',
+    desc: 'Welfare abilities reward decks that protect weaker units or invest resources into cards in hand.',
+    isNew: true,
+  },
+]
+
 export const cards = [
   {
     id: 1,
@@ -12,10 +65,6 @@ export const cards = [
     provision: 9,
     ability:
       'Welfare: Choose a bronze unit in your hand and give it 2 armor. If your deck has no duplicates, boost it by 2 as well.',
-    isNewKeyword: true,
-    newKeyword: 'Welfare',
-    newKeywordDesc:
-      'Welfare abilities reward decks that protect weaker units or invest resources into cards in hand.',
     flavor: 'Every road out of the ruin still remembers the shape of his boots.',
     image: 'linear-gradient(135deg, #1e2528 0%, #5f4b32 48%, #c9a35d 100%)',
     artCredit: 'Placeholder gradient',
