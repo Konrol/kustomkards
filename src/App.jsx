@@ -81,7 +81,8 @@ function getArtworkStyle(image) {
     return {
       backgroundImage: `url(${image.startsWith('/') ? assetPath(image) : image})`,
       backgroundPosition: 'center',
-      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'contain',
     }
   }
 

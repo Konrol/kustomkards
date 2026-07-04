@@ -342,8 +342,8 @@
 }
 
 .card-art {
-  aspect-ratio: 2 / 3;
-  min-height: 255px;
+  aspect-ratio: 504 / 719;
+  min-height: 242px;
   position: relative;
   display: block;
   border: 1px solid rgba(var(--theme-primary), 0.38);
@@ -368,15 +368,6 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.16);
   outline: none;
   transform: translateY(-2px);
-}
-
-.card-art::before {
-  content: '';
-  position: absolute;
-  inset: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 4px;
-  pointer-events: none;
 }
 
 .card-details {
@@ -640,7 +631,7 @@
 .lightbox-art {
   width: 100%;
   max-height: calc(100vh - 124px);
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 504 / 719;
   border: 1px solid rgba(var(--theme-primary), 0.58);
   border-radius: 8px;
   box-shadow:
