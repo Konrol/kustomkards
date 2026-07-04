@@ -443,23 +443,28 @@ export const keywordLibrary = [
     desc: 'Welfare abilities reward decks that protect weaker units or invest resources into cards in hand.',
     isNew: true,
   },
+  {
+    name: 'Vigilant',
+    desc: 'This ability triggers whenever a card is played.',
+    isNew: true,
+  },
 ]
 
 export const cards = [
   {
     id: 1,
-    name: 'Ashen Wayfarer',
+    name: 'Hektorek',
     faction: 'Neutral',
     rarity: 'Legendary',
     type: 'Unit',
-    tags: ['Human', 'Wanderer'],
-    power: 5,
-    provision: 9,
+    tags: ['Beast'],
+    power: 6,
+    provision: 12,
     ability:
-      'Welfare: Choose a bronze unit in your hand and give it 2 armor. If your deck has no duplicates, boost it by 2 as well.',
-    flavor: 'Every road out of the ruin still remembers the shape of his boots.',
-    image: 'linear-gradient(135deg, #1e2528 0%, #5f4b32 48%, #c9a35d 100%)',
-    artCredit: 'Placeholder gradient',
+      "Vigilant: During your turn, boost self by 1. During your opponent's turn, damage a random enemy unit by 1.",
+    flavor: 'Ba-wo-wu.',
+    image: '/cards/hektorek.png',
+    artCredit: 'Hektorek',
     artReference: '',
   },
   {
