@@ -1,5 +1,6 @@
 export const factions = ['Neutral', 'MO', 'NG', 'ST', 'SY', 'SK', 'NR']
 
+// Official keyword terms extracted from gwent.one v14.6.0 ability markup.
 export const keywordLibrary = [
   {
     name: 'Deploy',
@@ -9,6 +10,7 @@ export const keywordLibrary = [
   {
     name: 'Order',
     desc: 'This ability can be manually activated while the card is on the board.',
+    aliases: ['Orders'],
     isNew: false,
   },
   {
@@ -22,8 +24,20 @@ export const keywordLibrary = [
     isNew: false,
   },
   {
+    name: 'Coin',
+    desc: 'A Syndicate resource spent to pay Fee, Tribute, and other coin costs.',
+    aliases: ['Coins'],
+    isNew: false,
+  },
+  {
     name: 'Zeal',
     desc: 'An Order ability with Zeal can be used on the same turn the card is played.',
+    isNew: false,
+  },
+  {
+    name: 'Charge',
+    desc: 'A limited-use counter for an ability. Each use consumes one charge.',
+    aliases: ['Charges'],
     isNew: false,
   },
   {
@@ -44,6 +58,384 @@ export const keywordLibrary = [
   {
     name: 'Barricade',
     desc: 'This ability is active while the unit has armor.',
+    isNew: false,
+  },
+  {
+    name: 'Adrenaline',
+    desc: 'This ability gains or changes its effect when you have the specified number of cards or fewer in hand.',
+    isNew: false,
+  },
+  {
+    name: 'Ambush',
+    desc: 'Played face down and revealed when its Ambush condition is met.',
+    isNew: false,
+  },
+  {
+    name: 'Armor',
+    desc: 'Absorbs damage before a unit loses power.',
+    isNew: false,
+  },
+  {
+    name: 'Assimilate',
+    desc: 'Triggers when you play a card that did not start in your deck.',
+    isNew: false,
+  },
+  {
+    name: 'Banish',
+    desc: 'Remove a card from the game instead of sending it to the graveyard.',
+    aliases: ['Banished'],
+    isNew: false,
+  },
+  {
+    name: 'Berserk',
+    desc: 'Triggers or becomes active when the unit reaches the specified power.',
+    isNew: false,
+  },
+  {
+    name: 'Bleeding',
+    desc: 'At the end of its turn, a bleeding unit takes damage and the bleeding counter is reduced by 1.',
+    isNew: false,
+  },
+  {
+    name: 'Blood Moon',
+    desc: 'A row effect tied to vampire cards that applies bleeding pressure over time.',
+    isNew: false,
+  },
+  {
+    name: 'Bloodthirst',
+    desc: 'Requires the specified number of damaged enemy units to gain an extra effect.',
+    isNew: false,
+  },
+  {
+    name: 'Bonded',
+    desc: 'Gains an extra effect if you control another copy of this card.',
+    isNew: false,
+  },
+  {
+    name: 'Bounty',
+    desc: 'A status that rewards you with coins when the marked enemy is destroyed.',
+    isNew: false,
+  },
+  {
+    name: 'Cataclysm',
+    desc: 'A row effect that damages units on the affected row over time.',
+    isNew: false,
+  },
+  {
+    name: 'Clash',
+    desc: 'Compare values between cards or units, then resolve the listed effect.',
+    aliases: ['Clashes'],
+    isNew: false,
+  },
+  {
+    name: 'Conspiracy',
+    desc: 'Gains an extra effect if the target has Spying.',
+    isNew: false,
+  },
+  {
+    name: 'Consume',
+    desc: 'Destroy an allied unit, then boost by its power or otherwise use its value.',
+    aliases: ['Consumed'],
+    isNew: false,
+  },
+  {
+    name: 'Create',
+    desc: 'Choose one card from a generated selection and add or play it as instructed.',
+    isNew: false,
+  },
+  {
+    name: 'Crew',
+    desc: 'Gains an extra effect if placed between two Soldiers.',
+    isNew: false,
+  },
+  {
+    name: 'Deathblow',
+    desc: 'Triggers when this damage destroys a unit.',
+    isNew: false,
+  },
+  {
+    name: 'Deathwish',
+    desc: 'Triggers when this card is moved to the graveyard from the battlefield.',
+    isNew: false,
+  },
+  {
+    name: 'Defender',
+    desc: 'Enemies must target the Defender before targeting other units on that row.',
+    isNew: false,
+  },
+  {
+    name: 'Devotion',
+    desc: 'Gains an extra effect if your starting deck contains only cards from your faction.',
+    isNew: false,
+  },
+  {
+    name: 'Discard',
+    desc: 'Move a card from your hand to your graveyard.',
+    aliases: ['Discarded', 'Discards'],
+    isNew: false,
+  },
+  {
+    name: 'Disloyal',
+    desc: 'This unit is played on the opposite side of the board.',
+    isNew: false,
+  },
+  {
+    name: 'Dominance',
+    desc: 'Requires you to control the highest-power unit on the battlefield.',
+    isNew: false,
+  },
+  {
+    name: 'Doomed',
+    desc: 'When this card leaves the battlefield, banish it instead of sending it to the graveyard.',
+    isNew: false,
+  },
+  {
+    name: "Dragon's Dream",
+    desc: 'A row effect associated with the Dragon Dream special card.',
+    isNew: false,
+  },
+  {
+    name: 'Drain',
+    desc: 'Damage a unit, then boost self by the amount of damage dealt.',
+    isNew: false,
+  },
+  {
+    name: 'Duel',
+    desc: 'Two units damage each other in turns until one is destroyed or no further damage is dealt.',
+    isNew: false,
+  },
+  {
+    name: 'Echo',
+    desc: 'After being played, this card returns to the top of your deck at the start of the next round.',
+    isNew: false,
+  },
+  {
+    name: 'Exposed',
+    desc: 'Gains an extra effect if the unit has no armor.',
+    isNew: false,
+  },
+  {
+    name: 'Flanking',
+    desc: 'Gains an extra effect based on the units adjacent to this card.',
+    isNew: false,
+  },
+  {
+    name: 'Fog',
+    desc: 'A row effect that damages units on the affected row over time.',
+    isNew: false,
+  },
+  {
+    name: 'Formation',
+    desc: 'Choose between a melee or ranged placement effect when played.',
+    isNew: false,
+  },
+  {
+    name: 'Frost',
+    desc: 'A row effect that damages the highest unit on the affected row each turn.',
+    isNew: false,
+  },
+  {
+    name: 'Gang',
+    desc: 'Gains an extra effect if you control a matching gang or related Syndicate condition.',
+    isNew: false,
+  },
+  {
+    name: 'Grace',
+    desc: 'Triggers when this unit becomes boosted to the specified power.',
+    isNew: false,
+  },
+  {
+    name: 'Harmony',
+    desc: 'Boosts self when you play a Scoiatael unit with a primary category you do not control.',
+    isNew: false,
+  },
+  {
+    name: 'Heal',
+    desc: 'Restore a damaged unit up to its base power.',
+    aliases: ['Healed'],
+    isNew: false,
+  },
+  {
+    name: 'Hoard',
+    desc: 'Gains an extra effect if you have at least the listed number of coins.',
+    aliases: ['Hoards'],
+    isNew: false,
+  },
+  {
+    name: 'Immunity',
+    desc: 'This card cannot be manually targeted.',
+    isNew: false,
+  },
+  {
+    name: 'Infuse',
+    desc: 'Give a card or unit an additional effect that can trigger later.',
+    aliases: ['Infused'],
+    isNew: false,
+  },
+  {
+    name: 'Initiative',
+    desc: 'Gains an extra effect if you have not taken another action earlier this turn.',
+    isNew: false,
+  },
+  {
+    name: 'Insanity',
+    desc: 'If you do not have enough coins, pay the remaining cost by damaging this unit.',
+    isNew: false,
+  },
+  {
+    name: 'Intimidate',
+    desc: 'Boosts self whenever you play a Crime card.',
+    isNew: false,
+  },
+  {
+    name: 'Lineage',
+    desc: 'A Wild Hunt-related condition that improves an ability when its requirement is met.',
+    isNew: false,
+  },
+  {
+    name: 'Lock',
+    desc: 'Disable a unit ability.',
+    aliases: ['Locked'],
+    isNew: false,
+  },
+  {
+    name: 'Melee',
+    desc: 'This part of the ability applies when the card is played on the melee row.',
+    isNew: false,
+  },
+  {
+    name: 'Might',
+    desc: 'A condition or effect tied to high-power units.',
+    isNew: false,
+  },
+  {
+    name: 'Patience',
+    desc: 'Increases by 1 each turn while this card remains on the battlefield.',
+    isNew: false,
+  },
+  {
+    name: 'Poison',
+    desc: 'If a unit receives Poison twice, it is destroyed.',
+    aliases: ['Poisoned'],
+    isNew: false,
+  },
+  {
+    name: 'Predator',
+    desc: 'A condition or effect tied to damaging or destroying prey-like targets.',
+    isNew: false,
+  },
+  {
+    name: 'Purify',
+    desc: 'Remove statuses from a card.',
+    isNew: false,
+  },
+  {
+    name: 'Rain',
+    desc: 'A row effect that damages units on the affected row over time.',
+    isNew: false,
+  },
+  {
+    name: 'Ranged',
+    desc: 'This part of the ability applies when the card is played on the ranged row.',
+    isNew: false,
+  },
+  {
+    name: 'Resilience',
+    desc: 'This card remains on the battlefield into the next round.',
+    isNew: false,
+  },
+  {
+    name: 'Resupply',
+    desc: 'Triggers when you play a Warfare card.',
+    isNew: false,
+  },
+  {
+    name: 'Reveal',
+    desc: 'Show a hidden card to both players.',
+    isNew: false,
+  },
+  {
+    name: 'Rupture',
+    desc: 'At the end of its turn, a ruptured unit damages itself by its own power.',
+    isNew: false,
+  },
+  {
+    name: 'Sabbath',
+    desc: 'Requires the combined power of allied units on a row to meet the listed threshold.',
+    isNew: false,
+  },
+  {
+    name: 'Seize',
+    desc: 'Move an enemy unit to your side of the battlefield.',
+    aliases: ['Seized'],
+    isNew: false,
+  },
+  {
+    name: 'Shield',
+    desc: 'Prevents the next instance of damage dealt to this unit.',
+    isNew: false,
+  },
+  {
+    name: 'Spawn',
+    desc: 'Create a card and add it to the specified place.',
+    aliases: ['Spawned', 'Spawns'],
+    isNew: false,
+  },
+  {
+    name: 'Spring',
+    desc: 'Reveal an Ambush card and trigger its Spring effect.',
+    isNew: false,
+  },
+  {
+    name: 'Spying',
+    desc: 'A status showing that a unit is spying for the opposite side.',
+    isNew: false,
+  },
+  {
+    name: 'Storm',
+    desc: 'A row effect that damages units on the affected row over time.',
+    isNew: false,
+  },
+  {
+    name: 'Summon',
+    desc: 'Move a card from its current location to the battlefield.',
+    aliases: ['Summoned', 'Summons'],
+    isNew: false,
+  },
+  {
+    name: 'Symbiosis',
+    desc: 'Whenever you play a Nature card, spawn a Wandering Treant and boost it by this value.',
+    isNew: false,
+  },
+  {
+    name: 'Thrive',
+    desc: 'Boosts self when you play a unit with higher power.',
+    isNew: false,
+  },
+  {
+    name: 'Timer',
+    desc: 'Counts down each turn, then triggers when it reaches 0.',
+    isNew: false,
+  },
+  {
+    name: 'Tribute',
+    desc: 'Pay the listed number of coins when playing this card to gain an extra effect.',
+    aliases: ['Tributes'],
+    isNew: false,
+  },
+  {
+    name: 'Veil',
+    desc: 'Protects this unit from receiving statuses.',
+    isNew: false,
+  },
+  {
+    name: 'Vice',
+    desc: 'Triggers when you spend coins, up to the listed limit or condition.',
+    isNew: false,
+  },
+  {
+    name: 'Vitality',
+    desc: 'At the end of its turn, a unit with Vitality boosts itself and reduces the counter by 1.',
     isNew: false,
   },
   {

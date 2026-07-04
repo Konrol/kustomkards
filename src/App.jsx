@@ -110,13 +110,22 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
+const keywordTerms = keywordLibrary.flatMap((keyword) => [
+  keyword.name,
+  ...(keyword.aliases || []),
+])
+
 const keywordByName = new Map(
-  keywordLibrary.map((keyword) => [keyword.name.toLowerCase(), keyword]),
+  keywordLibrary.flatMap((keyword) =>
+    [keyword.name, ...(keyword.aliases || [])].map((term) => [
+      term.toLowerCase(),
+      keyword,
+    ]),
+  ),
 )
 
 const keywordPattern = new RegExp(
-  `\\b(${keywordLibrary
-    .map((keyword) => keyword.name)
+  `\\b(${keywordTerms
     .sort((firstKeyword, secondKeyword) => secondKeyword.length - firstKeyword.length)
     .map(escapeRegExp)
     .join('|')})\\b`,
