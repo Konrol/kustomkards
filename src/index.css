@@ -1,0 +1,181 @@
+:root {
+  --bg: #0a0b0f;
+  --panel: #11141b;
+  --text: #f3ead7;
+  --muted: #a99f90;
+  --line: rgba(243, 234, 215, 0.14);
+  --gold: #caa355;
+  --ember: #b75d4d;
+  --theme-primary: 202, 163, 85;
+  --theme-secondary: 183, 93, 77;
+  --theme-deep: 3, 5, 8;
+  --site-background-image: url('/backgrounds/site-background.jpg');
+  --header-background-image: url('/backgrounds/header-background.jpg');
+  --page-frame-left-image: url('/frames/page-frame-left.png');
+  --page-frame-right-image: url('/frames/page-frame-right.png');
+  --sans: Montserrat, 'Aptos Display', 'Trebuchet MS', Arial, ui-sans-serif,
+    system-ui, sans-serif;
+
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--sans);
+  font-synthesis: none;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body[data-faction='Neutral'] {
+  --theme-primary: 202, 163, 85;
+  --theme-secondary: 183, 93, 77;
+  --theme-deep: 3, 5, 8;
+}
+
+body[data-faction='MO'] {
+  --theme-primary: 190, 45, 50;
+  --theme-secondary: 105, 13, 24;
+  --theme-deep: 20, 4, 8;
+}
+
+body[data-faction='NG'] {
+  --theme-primary: 218, 205, 174;
+  --theme-secondary: 34, 31, 38;
+  --theme-deep: 2, 2, 4;
+}
+
+body[data-faction='ST'] {
+  --theme-primary: 71, 145, 89;
+  --theme-secondary: 23, 90, 60;
+  --theme-deep: 3, 17, 12;
+}
+
+body[data-faction='SY'] {
+  --theme-primary: 218, 131, 42;
+  --theme-secondary: 128, 73, 22;
+  --theme-deep: 22, 9, 3;
+}
+
+body[data-faction='SK'] {
+  --theme-primary: 147, 94, 202;
+  --theme-secondary: 77, 54, 150;
+  --theme-deep: 10, 5, 24;
+}
+
+body[data-faction='NR'] {
+  --theme-primary: 70, 128, 218;
+  --theme-secondary: 24, 68, 145;
+  --theme-deep: 3, 9, 24;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  min-width: 320px;
+  min-height: 100svh;
+  margin: 0;
+  background: var(--bg);
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+}
+
+body::before {
+  z-index: 0;
+  inset: -18px;
+  background-image: var(--site-background-image);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(1.5px);
+  transform: scale(1.03);
+}
+
+body::after {
+  z-index: 0;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(var(--theme-secondary), 0.25), transparent 36rem),
+    radial-gradient(circle at top right, rgba(var(--theme-primary), 0.22), transparent 32rem),
+    linear-gradient(
+      180deg,
+      rgba(var(--theme-deep), 0.72),
+      rgba(var(--theme-deep), 0.87) 42%,
+      rgba(var(--theme-deep), 0.96)
+    );
+  transition: background 260ms ease;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+#root::before,
+#root::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+#root::before {
+  z-index: 30;
+  background:
+    linear-gradient(90deg, rgba(3, 5, 8, 0.38), transparent 10rem),
+    linear-gradient(270deg, rgba(3, 5, 8, 0.38), transparent 10rem),
+    linear-gradient(180deg, rgba(202, 163, 85, 0.18), transparent 4.5rem),
+    linear-gradient(0deg, rgba(202, 163, 85, 0.1), transparent 4rem),
+    var(--page-frame-left-image) left center / clamp(38px, 3.2vw, 78px) 100% no-repeat,
+    var(--page-frame-right-image) right center / clamp(38px, 3.2vw, 78px) 100% no-repeat;
+  filter: saturate(0.82) brightness(0.68) blur(0.6px);
+  opacity: 0.34;
+}
+
+#root::after {
+  z-index: 31;
+  background:
+    linear-gradient(180deg, rgba(243, 234, 215, 0.08), transparent 1px) top / 100% 1px no-repeat,
+    linear-gradient(0deg, rgba(243, 234, 215, 0.05), transparent 1px) bottom / 100% 1px no-repeat,
+    radial-gradient(
+      circle at center,
+      transparent 58%,
+      rgba(0, 0, 0, 0.18) 76%,
+      rgba(0, 0, 0, 0.4)
+    );
+  mix-blend-mode: soft-light;
+  filter: blur(1.2px);
+  opacity: 0.32;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+@media (max-width: 720px) {
+  #root::before {
+    background-size:
+      auto,
+      auto,
+      auto,
+      auto,
+      34px 100%,
+      34px 100%;
+  }
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
