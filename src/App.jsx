@@ -74,18 +74,15 @@ function FactionIcon({ faction }) {
   )
 }
 
+function isArtworkFile(image) {
+  return image.startsWith('/') || image.startsWith('http')
+}
+
+function getArtworkUrl(image) {
+  return image.startsWith('/') ? assetPath(image) : image
+}
+
 function getArtworkStyle(image) {
-  const isFilePath = image.startsWith('/') || image.startsWith('http')
-
-  if (isFilePath) {
-    return {
-      backgroundImage: `url(${image.startsWith('/') ? assetPath(image) : image})`,
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'contain',
-    }
-  }
-
   return { background: image }
 }
 
@@ -366,15 +363,28 @@ function App() {
           </div>
 
           <section className="card-list" aria-live="polite">
-            {visibleCards.map((card) => (
+            {visibleCards.map((card) => {
+              const hasArtworkImage = isArtworkFile(card.image)
+
+              return (
               <article className="card-reveal" key={card.id}>
                 <button
                   type="button"
-                  className="card-art"
-                  style={getArtworkStyle(card.image)}
+                  className={`card-art${hasArtworkImage ? ' card-art-image' : ''}`}
+                  style={hasArtworkImage ? undefined : getArtworkStyle(card.image)}
                   aria-label={`Open larger artwork for ${card.name}`}
                   onClick={() => setSelectedCard(card)}
-                />
+                >
+                  {hasArtworkImage && (
+                    <img
+                      className="card-art-img"
+                      src={getArtworkUrl(card.image)}
+                      alt=""
+                      aria-hidden="true"
+                      draggable="false"
+                    />
+                  )}
+                </button>
 
                 <div className="card-details">
                   <div className="card-heading">
@@ -410,7 +420,8 @@ function App() {
                   {card.flavor && <p className="flavor">{card.flavor}</p>}
                 </div>
               </article>
-            ))}
+              )
+            })}
 
             {visibleCards.length === 0 && (
               <p className="empty-state">
@@ -451,10 +462,19 @@ function App() {
             className="lightbox-content"
             onClick={(event) => event.stopPropagation()}
           >
-            <div
-              className="lightbox-art"
-              style={getArtworkStyle(selectedCard.image)}
-            />
+            {isArtworkFile(selectedCard.image) ? (
+              <img
+                className="lightbox-art lightbox-art-image"
+                src={getArtworkUrl(selectedCard.image)}
+                alt={`Larger artwork for ${selectedCard.name}`}
+                draggable="false"
+              />
+            ) : (
+              <div
+                className="lightbox-art"
+                style={getArtworkStyle(selectedCard.image)}
+              />
+            )}
 
             <div className="art-credit-box">
               <p>
