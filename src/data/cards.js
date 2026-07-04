@@ -11,7 +11,11 @@ export const cards = [
     power: 5,
     provision: 9,
     ability:
-      'Deploy: Choose a bronze unit in your hand and give it 2 armor. If your deck has no duplicates, boost it by 2 as well.',
+      'Welfare: Choose a bronze unit in your hand and give it 2 armor. If your deck has no duplicates, boost it by 2 as well.',
+    isNewKeyword: true,
+    newKeyword: 'Welfare',
+    newKeywordDesc:
+      'Welfare abilities reward decks that protect weaker units or invest resources into cards in hand.',
     flavor: 'Every road out of the ruin still remembers the shape of his boots.',
     image: 'linear-gradient(135deg, #1e2528 0%, #5f4b32 48%, #c9a35d 100%)',
     artCredit: 'Placeholder gradient',

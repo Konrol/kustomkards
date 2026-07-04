@@ -106,11 +106,65 @@ function SiteTitle() {
   )
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function CardAbility({ card, isKeywordOpen, onToggleKeyword }) {
+  const hasKeyword = card.isNewKeyword && card.newKeyword && card.newKeywordDesc
+
+  if (!card.ability) {
+    return null
+  }
+
+  if (!hasKeyword) {
+    return <p className="ability">{card.ability}</p>
+  }
+
+  const keywordPattern = new RegExp(`(${escapeRegExp(card.newKeyword)})`, 'i')
+  const abilityParts = card.ability.split(keywordPattern)
+
+  return (
+    <div className="ability-wrap">
+      <p className="ability">
+        {abilityParts.map((part, index) => {
+          const isKeyword = part.toLowerCase() === card.newKeyword.toLowerCase()
+
+          if (!isKeyword) {
+            return part
+          }
+
+          return (
+            <button
+              className="keyword-trigger"
+              type="button"
+              aria-expanded={isKeywordOpen}
+              aria-controls={`keyword-desc-${card.id}`}
+              onClick={onToggleKeyword}
+              key={`${card.id}-${part}-${index}`}
+            >
+              {part}
+            </button>
+          )
+        })}
+      </p>
+
+      {isKeywordOpen && (
+        <div className="keyword-desc" id={`keyword-desc-${card.id}`}>
+          <strong>{card.newKeyword}</strong>
+          <p>{card.newKeywordDesc}</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function App() {
   const [activeSection, setActiveSection] = useState('Gwent')
   const [activeFaction, setActiveFaction] = useState('Neutral')
   const [activeFilter, setActiveFilter] = useState('All')
   const [isNavCompact, setIsNavCompact] = useState(false)
+  const [openKeywordCardId, setOpenKeywordCardId] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
   const headerRef = useRef(null)
 
@@ -306,7 +360,15 @@ function App() {
 
                   {(card.ability || card.flavor) && <div className="card-divider" />}
 
-                  {card.ability && <p className="ability">{card.ability}</p>}
+                  <CardAbility
+                    card={card}
+                    isKeywordOpen={openKeywordCardId === card.id}
+                    onToggleKeyword={() => {
+                      setOpenKeywordCardId((currentCardId) =>
+                        currentCardId === card.id ? null : card.id,
+                      )
+                    }}
+                  />
                   {card.flavor && <p className="flavor">{card.flavor}</p>}
                 </div>
               </article>
