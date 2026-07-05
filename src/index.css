@@ -163,6 +163,12 @@ select {
 }
 
 @media (max-width: 720px) {
+  body::before,
+  body::after {
+    position: absolute;
+    min-height: 100%;
+  }
+
   #root::before {
     background-size:
       auto,

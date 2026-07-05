@@ -230,12 +230,13 @@ function App() {
   }, [])
 
   useEffect(() => {
-    document.body.dataset.faction = activeFaction
+    document.body.dataset.faction =
+      activeSection === 'Gwent' ? activeFaction : 'Neutral'
 
     return () => {
       delete document.body.dataset.faction
     }
-  }, [activeFaction])
+  }, [activeFaction, activeSection])
 
   useEffect(() => {
     const updateNavMode = () => {
