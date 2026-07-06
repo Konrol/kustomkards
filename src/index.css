@@ -80,6 +80,14 @@ body {
   background: var(--bg);
 }
 
+body[data-section='Gwent'] {
+  scrollbar-width: none;
+}
+
+body[data-section='Gwent']::-webkit-scrollbar {
+  display: none;
+}
+
 body::before,
 body::after {
   content: '';

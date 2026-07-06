@@ -335,10 +335,12 @@ function App() {
   }, [])
 
   useEffect(() => {
+    document.body.dataset.section = activeSection
     document.body.dataset.faction =
       activeSection === 'Gwent' ? activeFaction : 'Neutral'
 
     return () => {
+      delete document.body.dataset.section
       delete document.body.dataset.faction
     }
   }, [activeFaction, activeSection])

@@ -946,7 +946,7 @@ export const cards = [
   },
   {
     id: 11,
-    name: 'Deserter Cavalery',
+    name: 'Deserter Cavalry',
     faction: 'NG',
     rarity: 'Rare',
     type: 'Unit',
