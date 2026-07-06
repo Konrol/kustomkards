@@ -1102,7 +1102,7 @@ export const cards = [
     ability:
       "While in deck, when a bronze unit is destroyed, move a copy of self to the Graveyard, then shuffle the destroyed unit back into your deck instead.",
     flavor: "Let the bodies hit the floor.",
-    image: placeholderImage,
+    image: '/cards/kuri.png',
     artCredit: 'Unknown',
     artReference: 'https://www.reddit.com/r/gwent/comments/1r74g6l/comment/o5uy9xl/',
   },
