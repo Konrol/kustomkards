@@ -132,12 +132,40 @@ const keywordPattern = new RegExp(
 
 const tokenCardsById = new Map(tokenCards.map((token) => [token.id, token]))
 
-function CardAbility({ card, openKeywordName, onToggleKeyword }) {
+function getCardTokenEntries(card) {
+  return (card.tokenRefs || [])
+    .map((tokenId) => tokenCardsById.get(tokenId))
+    .filter(Boolean)
+    .map((token) => [token.name.toLowerCase(), token])
+}
+
+function CardAbility({
+  card,
+  openKeywordName,
+  openTokenId,
+  openTokenKeywordName,
+  onToggleKeyword,
+  onToggleToken,
+  onToggleTokenKeyword,
+}) {
   if (!card.ability) {
     return null
   }
 
-  const abilityParts = card.ability.split(keywordPattern)
+  const tokenEntries = getCardTokenEntries(card)
+  const tokenTerms = tokenEntries.map(([, token]) => token.name)
+  const abilityPattern =
+    tokenTerms.length > 0
+      ? new RegExp(
+          `\\b(${[...keywordTerms, ...tokenTerms]
+            .sort((firstTerm, secondTerm) => secondTerm.length - firstTerm.length)
+            .map(escapeRegExp)
+            .join('|')})\\b`,
+          'gi',
+        )
+      : keywordPattern
+  const abilityParts = card.ability.split(abilityPattern)
+  const tokenByName = new Map(tokenEntries)
 
   if (abilityParts.length === 1) {
     return <p className="ability">{card.ability}</p>
@@ -148,9 +176,27 @@ function CardAbility({ card, openKeywordName, onToggleKeyword }) {
       <p className="ability">
         {abilityParts.map((part, index) => {
           const keyword = keywordByName.get(part.toLowerCase())
+          const token = tokenByName.get(part.toLowerCase())
 
-          if (!keyword) {
+          if (!keyword && !token) {
             return part
+          }
+
+          if (token) {
+            const isTokenOpen = openTokenId === token.id
+
+            return (
+              <button
+                className="token-trigger"
+                type="button"
+                aria-expanded={isTokenOpen}
+                aria-controls={`token-desc-${card.id}-${token.id}`}
+                onClick={() => onToggleToken(token.id)}
+                key={`${card.id}-${part}-${index}`}
+              >
+                {part}
+              </button>
+            )
           }
 
           const isKeywordOpen = openKeywordName === keyword.name
@@ -187,11 +233,25 @@ function CardAbility({ card, openKeywordName, onToggleKeyword }) {
           <p>{keywordByName.get(openKeywordName.toLowerCase())?.desc}</p>
         </div>
       )}
+
+      {openTokenId && (
+        <div id={`token-desc-${card.id}-${openTokenId}`}>
+          <TokenPreview
+            token={tokenCardsById.get(openTokenId)}
+            openKeywordName={openTokenKeywordName}
+            onToggleKeyword={onToggleTokenKeyword}
+          />
+        </div>
+      )}
     </div>
   )
 }
 
 function TokenPreview({ token, openKeywordName, onToggleKeyword }) {
+  if (!token) {
+    return null
+  }
+
   return (
     <article className="token-preview">
       <img
@@ -222,39 +282,14 @@ function TokenPreview({ token, openKeywordName, onToggleKeyword }) {
         <CardAbility
           card={token}
           openKeywordName={openKeywordName}
+          openTokenId={null}
+          openTokenKeywordName={null}
           onToggleKeyword={onToggleKeyword}
+          onToggleToken={() => {}}
+          onToggleTokenKeyword={() => {}}
         />
       </div>
     </article>
-  )
-}
-
-function TokenPreviews({ card, openKeyword, onToggleKeyword }) {
-  const tokens = (card.tokenRefs || [])
-    .map((tokenId) => tokenCardsById.get(tokenId))
-    .filter(Boolean)
-
-  if (tokens.length === 0) {
-    return null
-  }
-
-  return (
-    <div className="token-preview-list" aria-label={`Tokens created by ${card.name}`}>
-      {tokens.map((token) => {
-        const previewId = `${card.id}-${token.id}`
-
-        return (
-          <TokenPreview
-            key={previewId}
-            token={token}
-            openKeywordName={
-              openKeyword?.cardId === previewId ? openKeyword.name : null
-            }
-            onToggleKeyword={(keywordName) => onToggleKeyword(previewId, keywordName)}
-          />
-        )
-      })}
-    </div>
   )
 }
 
@@ -264,6 +299,7 @@ function App() {
   const [activeFilter, setActiveFilter] = useState('All')
   const [isNavCompact, setIsNavCompact] = useState(false)
   const [openKeyword, setOpenKeyword] = useState(null)
+  const [openToken, setOpenToken] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
   const headerRef = useRef(null)
 
@@ -478,7 +514,16 @@ function App() {
                     openKeywordName={
                       openKeyword?.cardId === card.id ? openKeyword.name : null
                     }
+                    openTokenId={
+                      openToken?.cardId === card.id ? openToken.tokenId : null
+                    }
+                    openTokenKeywordName={
+                      openKeyword?.cardId === `${card.id}-${openToken?.tokenId}`
+                        ? openKeyword.name
+                        : null
+                    }
                     onToggleKeyword={(keywordName) => {
+                      setOpenToken(null)
                       setOpenKeyword((currentKeyword) =>
                         currentKeyword?.cardId === card.id &&
                         currentKeyword.name === keywordName
@@ -486,20 +531,27 @@ function App() {
                           : { cardId: card.id, name: keywordName },
                       )
                     }}
-                  />
-                  {card.flavor && <p className="flavor">{card.flavor}</p>}
-                  <TokenPreviews
-                    card={card}
-                    openKeyword={openKeyword}
-                    onToggleKeyword={(previewId, keywordName) => {
+                    onToggleToken={(tokenId) => {
+                      setOpenKeyword(null)
+                      setOpenToken((currentToken) =>
+                        currentToken?.cardId === card.id &&
+                        currentToken.tokenId === tokenId
+                          ? null
+                          : { cardId: card.id, tokenId },
+                      )
+                    }}
+                    onToggleTokenKeyword={(keywordName) => {
+                      const tokenKeywordCardId = `${card.id}-${openToken?.tokenId}`
+
                       setOpenKeyword((currentKeyword) =>
-                        currentKeyword?.cardId === previewId &&
+                        currentKeyword?.cardId === tokenKeywordCardId &&
                         currentKeyword.name === keywordName
                           ? null
-                          : { cardId: previewId, name: keywordName },
+                          : { cardId: tokenKeywordCardId, name: keywordName },
                       )
                     }}
                   />
+                  {card.flavor && <p className="flavor">{card.flavor}</p>}
                 </div>
               </article>
               )

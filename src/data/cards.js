@@ -470,6 +470,8 @@ const makePlaceholderCard = (id, faction, rarity) => ({
 })
 
 // Official rare/common token cards from gwent.one v14.6.0 Token search.
+// To use custom art, add the image file under public/tokens and set image to
+// a local path such as '/tokens/operative.png'.
 export const tokenCards = [
   {
     id: 'bear-abomination',
