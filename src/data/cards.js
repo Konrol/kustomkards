@@ -469,6 +469,7 @@ const makePlaceholderCard = (id, faction, rarity) => ({
   artReference: '',
 })
 
+// Official rare/common token cards from gwent.one v14.6.0 Token search.
 export const tokenCards = [
   {
     id: 'bear-abomination',
