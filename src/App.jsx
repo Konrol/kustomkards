@@ -295,7 +295,7 @@ function TokenPreview({ token, openKeywordName, onToggleKeyword }) {
 
 function App() {
   const [activeSection, setActiveSection] = useState('Gwent')
-  const [activeFaction, setActiveFaction] = useState('Neutral')
+  const [activeFaction, setActiveFaction] = useState('MO')
   const [activeFilter, setActiveFilter] = useState('All')
   const [isNavCompact, setIsNavCompact] = useState(false)
   const [openKeyword, setOpenKeyword] = useState(null)
