@@ -600,6 +600,67 @@
   line-height: 1.5;
 }
 
+.token-preview-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.token-preview {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+  max-width: 520px;
+}
+
+.token-preview-art {
+  display: block;
+  width: 118px;
+  height: auto;
+  filter: drop-shadow(0 14px 34px rgba(0, 0, 0, 0.4));
+}
+
+.token-preview-details {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.token-preview-heading {
+  display: grid;
+  gap: 4px;
+}
+
+.token-preview-heading .card-kicker {
+  font-size: 0.62rem;
+  margin: 0;
+}
+
+.token-preview-heading h3 {
+  font-size: 1rem;
+  line-height: 1;
+  margin: 0;
+}
+
+.token-preview-metadata {
+  font-size: 0.82rem;
+  margin-top: 10px;
+}
+
+.token-preview-divider {
+  margin: 12px 0 10px;
+}
+
+.token-preview .ability {
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.token-preview .keyword-desc {
+  font-size: 0.76rem;
+  padding: 10px 12px;
+}
+
 .empty-state {
   grid-column: 1 / -1;
   border: 1px solid var(--line);
@@ -871,5 +932,14 @@
 
   .card-details {
     padding-top: 0;
+  }
+
+  .token-preview {
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .token-preview-art {
+    width: 92px;
   }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { cards, factions, keywordLibrary } from './data/cards'
+import { cards, factions, keywordLibrary, tokenCards } from './data/cards'
 import './App.css'
 
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
@@ -130,6 +130,8 @@ const keywordPattern = new RegExp(
   'gi',
 )
 
+const tokenCardsById = new Map(tokenCards.map((token) => [token.id, token]))
+
 function CardAbility({ card, openKeywordName, onToggleKeyword }) {
   if (!card.ability) {
     return null
@@ -185,6 +187,73 @@ function CardAbility({ card, openKeywordName, onToggleKeyword }) {
           <p>{keywordByName.get(openKeywordName.toLowerCase())?.desc}</p>
         </div>
       )}
+    </div>
+  )
+}
+
+function TokenPreview({ token, openKeywordName, onToggleKeyword }) {
+  return (
+    <article className="token-preview">
+      <img
+        className="token-preview-art"
+        src={getArtworkUrl(token.image)}
+        alt=""
+        aria-hidden="true"
+        draggable="false"
+      />
+
+      <div className="token-preview-details">
+        <div className="token-preview-heading">
+          <p className={`card-kicker rarity-${token.rarity.toLowerCase()}`}>
+            {token.rarity}
+          </p>
+          <h3>{token.name}</h3>
+        </div>
+
+        <div className="metadata token-preview-metadata">
+          <span>{token.type}</span>
+          {token.tags.map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
+        </div>
+
+        <div className="card-divider token-preview-divider" />
+
+        <CardAbility
+          card={token}
+          openKeywordName={openKeywordName}
+          onToggleKeyword={onToggleKeyword}
+        />
+      </div>
+    </article>
+  )
+}
+
+function TokenPreviews({ card, openKeyword, onToggleKeyword }) {
+  const tokens = (card.tokenRefs || [])
+    .map((tokenId) => tokenCardsById.get(tokenId))
+    .filter(Boolean)
+
+  if (tokens.length === 0) {
+    return null
+  }
+
+  return (
+    <div className="token-preview-list" aria-label={`Tokens created by ${card.name}`}>
+      {tokens.map((token) => {
+        const previewId = `${card.id}-${token.id}`
+
+        return (
+          <TokenPreview
+            key={previewId}
+            token={token}
+            openKeywordName={
+              openKeyword?.cardId === previewId ? openKeyword.name : null
+            }
+            onToggleKeyword={(keywordName) => onToggleKeyword(previewId, keywordName)}
+          />
+        )
+      })}
     </div>
   )
 }
@@ -419,6 +488,18 @@ function App() {
                     }}
                   />
                   {card.flavor && <p className="flavor">{card.flavor}</p>}
+                  <TokenPreviews
+                    card={card}
+                    openKeyword={openKeyword}
+                    onToggleKeyword={(previewId, keywordName) => {
+                      setOpenKeyword((currentKeyword) =>
+                        currentKeyword?.cardId === previewId &&
+                        currentKeyword.name === keywordName
+                          ? null
+                          : { cardId: previewId, name: keywordName },
+                      )
+                    }}
+                  />
                 </div>
               </article>
               )
